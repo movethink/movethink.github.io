@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="guanhongjie的博客">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        js浮点数运算精度问题 - undefined
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 千里之行 积于跬步 九层之台 起于累土 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Hongjie Guan</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题提出"><span class="toc-text">问题提出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原因"><span class="toc-text">原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整数转为-2-进制"><span class="toc-text">整数转为 2 进制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浮点数转换为-2-进制"><span class="toc-text">浮点数转换为 2 进制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浮点数在-64-位双精度下的存储"><span class="toc-text">浮点数在 64 位双精度下的存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生产环境中的解决办法"><span class="toc-text">生产环境中的解决办法</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 千里之行 积于跬步 九层之台 起于累土 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        js浮点数运算精度问题
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-08-14 14:46:35</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#js" title="js">js</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="问题提出"><a href="#问题提出" class="headerlink" title="问题提出"></a>问题提出</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10.23</span> + <span class="number">0.2345</span>;</span><br><span class="line"><span class="number">0.1</span> + <span class="number">0.2</span>;</span><br></pre></td></tr></table></figure>
+
+<p>10.23 + 0.2345 实际测试结果为<code>10.464500000000001</code>,而不是<code>10.4645</code><br>0.1 +0.2 实际测试结果为<code>0.30000000000000004</code>,而不是<code>0.3</code></p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>浮点数在 2 进制中存储的时候，无法精确存储</p>
+<p>js 在数据存储中采用 64 位双精度浮点数形式储存</p>
+<h2 id="整数转为-2-进制"><a href="#整数转为-2-进制" class="headerlink" title="整数转为 2 进制"></a>整数转为 2 进制</h2><p>用 8 位 2 进制表达 10 进制下的数字 8</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">8</span>/<span class="number">2</span> = <span class="number">4</span> =&gt; <span class="number">0</span></span><br><span class="line"><span class="number">4</span>/<span class="number">2</span> = <span class="number">2</span> =&gt; <span class="number">0</span></span><br><span class="line"><span class="number">2</span>/<span class="number">2</span> = <span class="number">1</span> =&gt; <span class="number">0</span></span><br><span class="line"><span class="number">1</span>/<span class="number">2</span> = <span class="number">0</span> =&gt; <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>商为 0 终止计算，然后倒排为 1000，因为是 8 位，所以在上 4 位补 0<br>表达即为：00001000</p>
+<h2 id="浮点数转换为-2-进制"><a href="#浮点数转换为-2-进制" class="headerlink" title="浮点数转换为 2 进制"></a>浮点数转换为 2 进制</h2><p>例如 0.82 的二进制表达为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.82</span> _ <span class="number">2</span> = <span class="number">1.64</span> =&gt; <span class="number">1</span></span><br><span class="line"><span class="number">0.64</span> _ <span class="number">2</span> = <span class="number">1.28</span> =&gt; <span class="number">1</span></span><br><span class="line"><span class="number">0.28</span> _ <span class="number">2</span> = <span class="number">0.56</span> =&gt; <span class="number">0</span></span><br><span class="line"><span class="number">0.56</span> _ <span class="number">2</span> = <span class="number">1.12</span> =&gt; <span class="number">1</span></span><br><span class="line"><span class="number">0.12</span> _ <span class="number">2</span> = <span class="number">0.24</span> =&gt; <span class="number">0</span></span><br><span class="line"><span class="number">0.24</span> _ <span class="number">2</span> = <span class="number">0.48</span> =&gt; <span class="number">0</span></span><br><span class="line"><span class="number">0.48</span> _ <span class="number">2</span> = <span class="number">0.96</span> =&gt; <span class="number">0</span></span><br><span class="line"><span class="number">0.96</span> _ <span class="number">2</span> = <span class="number">1.92</span> =&gt; <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>表达即为：0.11010001…</p>
+<p>举例：10 进制下 0.1 表达为二进制下为：0.000110011…</p>
+<h2 id="浮点数在-64-位双精度下的存储"><a href="#浮点数在-64-位双精度下的存储" class="headerlink" title="浮点数在 64 位双精度下的存储"></a>浮点数在 64 位双精度下的存储</h2><p>符号位 S：第 1 位是正负数符号位（sign），0 代表正数，1 代表负数</p>
+<p>指数位 E：中间的 11 位存储指数（exponent），用来表示次方数</p>
+<p>尾数位 M：最后的 52 位是尾数（mantissa），超出的部分自动进一舍零</p>
+<p><img src="https://camo.githubusercontent.com/af8c1cdd9aedced18be47e40d27208b671b4a18d/687474703a2f2f617461322d696d672e636e2d68616e677a686f752e696d672d7075622e616c6979756e2d696e632e636f6d2f37323637613538623239383932633362373233653364366333663733393035612e706e67" alt=""></p>
+<p>公式表示：</p>
+<p><img src="https://user-images.githubusercontent.com/948896/31601625-1f199ad0-b220-11e7-9d46-bb48a470bedf.png" alt=""></p>
+<p>以上的公式遵循科学计数法的规范，在十进制是为 0&lt;M&lt;10，到二进行就是 0&lt;M&lt;2。也就是说整数部分只能是 1，所以可以被舍去，只保留后面的小数部分。如 4.5 转换成二进制就是 100.1，科学计数法表示是 1.001*2^2，舍去 1 后 M = 001。E 是一个无符号整数，因为长度是 11 位，取值范围是 0~2047。但是科学计数法中的指数是可以为负数的，所以再减去一个中间数 1023，[0,1022]表示为负，[1024,2047] 表示为正。如 4.5 的指数 E = 1025，尾数 M 为 001</p>
+<p><img src="https://user-images.githubusercontent.com/948896/31601584-f65ed43e-b21f-11e7-8755-c99b48e5134c.png" alt=""></p>
+<p>0.1 转成二进制表示为 0.0001100110011001100(1100 循环)，1.100110011001100x2^-4，所以 E=-4+1023=1019；M 舍去首位的 1，得到 100110011…</p>
+<p>0.1 +0.2</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0.1 和 0.2 都转化成二进制后再进行运算</span></span><br><span class="line"><span class="number">0.0001100110011001100110011001100110011001100110011001101</span> +</span><br><span class="line"><span class="number">0.001100110011001100110011001100110011001100110011001101</span> = <span class="number">0.0100110011001100110011001100110011001100110011001100111</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转成十进制正好是 0.30000000000000004</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="生产环境中的解决办法"><a href="#生产环境中的解决办法" class="headerlink" title="生产环境中的解决办法"></a>生产环境中的解决办法</h2><p><a href="https://github.com/dt-fe/number-precision" target="_blank" rel="noopener">https://github.com/dt-fe/number-precision</a></p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/guan-jie-65">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/6435500079">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/movethink">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://yiwenzhe.com/" target="_blank" rel="noopener">YWZ</a></span>
+        <span>/</span>
+        
+        <span><a href="https://codec.fun/" target="_blank" rel="noopener">技巅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://coolshell.cn/" target="_blank" rel="noopener">COOLSHELL</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.yinwang.org/" target="_blank" rel="noopener">WANGYIN</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
