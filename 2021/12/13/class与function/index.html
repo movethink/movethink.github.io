@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="guanhongjie的博客">
+    <meta name="keyword"  content="guanhongjie的博客">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        class与function - guanhongjie
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 逆水行舟 不进则退 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Hongjie Guan</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#实现继承"><span class="toc-text">实现继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#function-实现"><span class="toc-text">function 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#class-实现"><span class="toc-text">class 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new-操作"><span class="toc-text">new 操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#call"><span class="toc-text">call</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 逆水行舟 不进则退 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        class与function
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-12-13 20:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#js" title="js">js</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="实现继承"><a href="#实现继承" class="headerlink" title="实现继承"></a>实现继承</h2><p>本篇博文想到哪就写到哪~</p>
+<p>js 里需要用到继承的场景，一般是需要自己通过构造函数创建对象的时候，这个对象有自己特别的一些方法，并且可以被标识为特定的类型。这时候我们通常会使用构造函数创建对象，并且可以通过继承实现代码扩展。</p>
+<h2 id="function-实现"><a href="#function-实现" class="headerlink" title="function 实现"></a>function 实现</h2><p>在 ES5 中，我们一般通过原型链继承，一般会通过构造函数实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.sayHello = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"my name is "</span>, <span class="keyword">this</span>.name);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> person1 = <span class="keyword">new</span> Person(<span class="string">"guan"</span>, <span class="string">"2"</span>);</span><br><span class="line"><span class="keyword">let</span> person2 = <span class="keyword">new</span> Person(<span class="string">"jie"</span>, <span class="string">"3"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在实例化的过程中，person1 和 person2 均拥有 sayHello 方法。一般构造函数，命名时首字母大写。</p>
+<h2 id="class-实现"><a href="#class-实现" class="headerlink" title="class 实现"></a>class 实现</h2><p>在 ES6 中，实现了 class 定义方式，可以简单理解为 class 就是之前 function 实现继承方式的语法糖：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>= &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name,age)&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">    <span class="keyword">this</span>.age = age;</span><br><span class="line">  &#125;</span><br><span class="line">  sayHello()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"my name is "</span>, <span class="keyword">this</span>.name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> person1 = <span class="keyword">new</span> Person(<span class="string">"guan"</span>, <span class="string">"2"</span>);</span><br><span class="line"><span class="keyword">let</span> person2 = <span class="keyword">new</span> Person(<span class="string">"jie"</span>, <span class="string">"3"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="new-操作"><a href="#new-操作" class="headerlink" title="new 操作"></a>new 操作</h2><p>new 本质上做了 4 件事<br>新建一个对象<br>把这个对象的原型指向 new 的那个构造函数或者类<br>将新建的对象作为 this 的上下文<br>返回一个构造函数的返回值，如果没有返回值，则返回 this</p>
+<h2 id="call"><a href="#call" class="headerlink" title="call"></a>call</h2><p>call() 方法使用一个指定的 this 值和单独给出的一个或多个参数来调用一个函数。</p>
+<p>call 最大的作用用来指定函数的上下文执行环境</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> reply = [<span class="keyword">this</span>.animal, <span class="string">"typically sleep between"</span>, <span class="keyword">this</span>.sleepDuration].join(</span><br><span class="line">    <span class="string">" "</span></span><br><span class="line">  );</span><br><span class="line">  <span class="built_in">console</span>.log(reply);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  animal: <span class="string">"cats"</span>,</span><br><span class="line">  sleepDuration: <span class="string">"12 and 16 hours"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">greet.call(obj); <span class="comment">// cats typically sleep between 12 and 16 hours</span></span><br></pre></td></tr></table></figure>
+
+<p>当第一个参数不传时默认指向 window 对象，严格模式下指向 undefined</p>
+<p>第一个参数为一个对象。</p>
+<p>可以认为“js 中一切皆对象”，对象是拥有属性和方法的数据。 js 共有 7 中基本类型的（number，string，boolean，null，undefined，symbol，object ），之所以它们可以像对象一样引用，只是因为在引用过程中发生了“临时包装”导致，实际上，“js 中一切皆对象”是不准确的。</p>
+<p>symbol 也是一个基础类型，主要作用于生成一个唯一的值</p>
+<p>比如在枚举场景中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> COLOR_GREEN = <span class="built_in">Symbol</span>(<span class="string">"green"</span>);</span><br><span class="line"><span class="keyword">const</span> COLOR_RED = <span class="built_in">Symbol</span>(<span class="string">"red"</span>);</span><br><span class="line"><span class="built_in">Symbol</span>(<span class="string">"green"</span>) === <span class="built_in">Symbol</span>(<span class="string">"green"</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>就算 green 和 red 为同一字符都不会影响后面的判断逻辑</p>
+
+        
+        <br />
+        <div id="comment-container">
+            
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+        <div id="valine-container">
+          <!-- valine评论 -->
+          <section id="comments" class="comments">
+          </section>
+            <style>
+              .comments{margin:30px;padding:10px;background:rgb(255, 255, 255)}
+              @media screen and (max-width:400px){.comments{margin:auto;padding:10px;background:rgb(214, 252, 203)}}
+            </style>
+            <div id="vcomment" class="comment"></div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/guan-jie-65">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/6435500079">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/movethink">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://yiwenzhe.com/" target="_blank" rel="noopener">YWZ</a></span>
+        <span>/</span>
+        
+        <span><a href="https://codec.fun/" target="_blank" rel="noopener">技巅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://coolshell.cn/" target="_blank" rel="noopener">COOLSHELL</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.yinwang.org/" target="_blank" rel="noopener">WANGYIN</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<!-- 评论系统 -->
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  var notify = "false" == true ? true : false;
+  var verify = "false" == true ? true : false;
+  new Valine({
+    av: AV,
+    el: "#vcomment",
+    notify: notify,
+    app_id: "Ymj3Wec8bNrVWvOrrIw0P1kG-MdYXbMMI",
+    app_key: "3CPCEBWW5sbk2TicczVjaXVf",
+    placeholder: "请留下宝贵的评论",
+    avatar: "retro",
+  });
+</script>
+
+
+
+
+</html>

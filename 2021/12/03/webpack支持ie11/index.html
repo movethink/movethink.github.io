@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="guanhongjie的博客">
+    <meta name="keyword"  content="guanhongjie的博客">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        webpack支持ie11 - guanhongjie
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 逆水行舟 不进则退 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Hongjie Guan</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-text">准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#polyfill"><span class="toc-text">polyfill</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#webpack-vue"><span class="toc-text">webpack + vue</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#core-js2"><span class="toc-text">core-js2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#core-js3"><span class="toc-text">core-js3</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vue-cli"><span class="toc-text">vue cli</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 逆水行舟 不进则退 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        webpack支持ie11
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-12-03 20:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#js" title="js">js</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>对于某些项目来说，是有 ie11 支持需求的，一般 to b 的业务，得优先考虑是否需要支持 ie。对于 vue 项目而言，一般分为 webpack 集成 vue，和使用 vue cli 搭建。个人倾向于使用 webpack 集成 vue 的方式，这样遇到问题更容易有解决方案。vue cli 在 webpack 上封装了一层，使用起来还是有点束缚，当然，一般的支持 vue cli 还是支持度很高的。如果是高度自定义化的项目，个人喜欢用 webpack 集成 vue。</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>首先需要借助 babel，来把 es6 代码编译为 es5，通常会借助 babel-loader 实现，比如在项目中引入<code>babel.config.json</code>，通常格式如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    [</span><br><span class="line">      <span class="string">"@babel/preset-env"</span></span><br><span class="line">      <span class="comment">// 设置plugins后可以不写这个配置项，免得重复打包增加包大小</span></span><br><span class="line">      <span class="comment">// 这是core-js3用法，因为p1包的限制，项目整体只能使用corejs2</span></span><br><span class="line">      <span class="comment">// &#123;</span></span><br><span class="line">      <span class="comment">//     "useBuiltIns": "entry",</span></span><br><span class="line">      <span class="comment">//     "corejs": &#123;</span></span><br><span class="line">      <span class="comment">//         "version": 3</span></span><br><span class="line">      <span class="comment">//     &#125;,</span></span><br><span class="line">      <span class="comment">//     "targets": &#123;</span></span><br><span class="line">      <span class="comment">//         "ie": "11"</span></span><br><span class="line">      <span class="comment">//     &#125;</span></span><br><span class="line">      <span class="comment">// &#125;</span></span><br><span class="line">    ]</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"plugins"</span>: [</span><br><span class="line">    <span class="comment">// corejs3用法</span></span><br><span class="line">    <span class="comment">// [</span></span><br><span class="line">    <span class="comment">//     "@babel/plugin-transform-runtime",</span></span><br><span class="line">    <span class="comment">//     &#123;</span></span><br><span class="line">    <span class="comment">//         "corejs": &#123;</span></span><br><span class="line">    <span class="comment">//             "version": 3,</span></span><br><span class="line">    <span class="comment">//             "proposals": true</span></span><br><span class="line">    <span class="comment">//         &#125;,</span></span><br><span class="line">    <span class="comment">//         "useESModules": true</span></span><br><span class="line">    <span class="comment">//     &#125;</span></span><br><span class="line">    <span class="comment">// ]</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置好 babel 配置文件后，我们需要在 webpack.config.js 文件中运用 loader 规则：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        use: [<span class="string">"style-loader"</span>, <span class="string">"css-loader"</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.vue$/</span>,</span><br><span class="line">        use: [&#123; <span class="attr">loader</span>: <span class="string">"vue-loader"</span> &#125;],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.svg/</span>,</span><br><span class="line">        use: [<span class="string">"file-loader"</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.html$/</span>,</span><br><span class="line">        use: [<span class="string">"html-loader"</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.m?js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/(node_modules|bower_components)/</span>, <span class="comment">//排除node_modules中的文件</span></span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>这样项目中的 js 文件就会从 es6 编译为 es5 代码。</p>
+<p>有些库默认不支持 es5，他们编译在 node_modules 中的代码就是 es6 的语法，比如使用了一些箭头函数之类的语法，这时候需要单独在 webpack 中为其配置转换规则：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.m?js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/(node_modules|bower_components)/</span>, <span class="comment">//排除node_modules中的文件</span></span><br><span class="line">        include: [</span><br><span class="line">          resolve(<span class="string">"../node_modules/react-loadable"</span>),</span><br><span class="line">          resolve(<span class="string">"../src"</span>),</span><br><span class="line">          resolve(<span class="string">"./router.config.js"</span>)</span><br><span class="line">        ],</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，以上写法仅仅支持 babel7 以上，并且 babel 配置文件需要是<code>babel.config.json</code>，而不能是简写的<code>.babelrc</code>形式，因为<code>.babelrc</code>作为配置文件的时候默认不会编译<code>node_modules</code>文件夹中的代码。</p>
+<h2 id="polyfill"><a href="#polyfill" class="headerlink" title="polyfill"></a>polyfill</h2><p>babel-loader 只能把 es6 代码编译为 es5 代码，但是还有一些 es6 中的新 api，是无法转换的，需要提供合适的“垫片”—-polyfill，简单来说，就是把新的 api 用老的方式实现以下，因为低级浏览器中无法识别这些新 api，比如 promise 函数在 ie11 中就无法支持，需要有合适的 polyfill 才能识别。</p>
+<h3 id="webpack-vue"><a href="#webpack-vue" class="headerlink" title="webpack + vue"></a>webpack + vue</h3><p>我们一般使用 vue 来加速前端代码构建，这里例举如何在 webpack 中直接集成 vue 项目，并使得项目支持 ie11.</p>
+<p>关于 webpack 如何集成 vue，可以查看之前的文章，在此不再赘述。</p>
+<h4 id="core-js2"><a href="#core-js2" class="headerlink" title="core-js2"></a>core-js2</h4><p>core-js2 方式中，一般需要安装<code>@babel/polyfill</code>包，可以直接通过 npm 方式安装。因为 polyfill 会在源代码安装前运行，所以需要安装成 dependencies 而不是 devDependencies，安装<code>@babel/polyfill</code>包后，把该包引入 main.js 文件（入口文件）即，除此以外，还需要在 webpack 的入口文件处加上如下配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.entry(<span class="string">"main"</span>).add(<span class="string">"@babel/polyfill"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>其实很多情况下，只要在 main.js 下首行引入 polyfill 即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">"@babel/polyfill"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>但是这种方式会全量引入 polyfill，对于不好排查新 api，并且比较大的项目，可以使用这种方式，大而全。</p>
+<h4 id="core-js3"><a href="#core-js3" class="headerlink" title="core-js3"></a>core-js3</h4><p>core-js3 会支持很多 2 中没有的 api，并且配置相对来说更加方便，只需要在 babel.config.js 中这样配置就行：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">"@babel/preset-env"</span>,</span><br><span class="line">            <span class="comment">// 设置plugins后可以不写这个配置项，免得重复打包增加包大小</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">"useBuiltIns"</span>: <span class="string">"entry"</span>,</span><br><span class="line">                <span class="string">"corejs"</span>: &#123;</span><br><span class="line">                    <span class="string">"version"</span>: <span class="number">3</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"targets"</span>: &#123;</span><br><span class="line">                    <span class="string">"ie"</span>: <span class="string">"11"</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"plugins"</span>: [</span><br><span class="line">        <span class="comment">// corejs3用法</span></span><br><span class="line">        [</span><br><span class="line">            <span class="string">"@babel/plugin-transform-runtime"</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">"corejs"</span>: &#123;</span><br><span class="line">                    <span class="string">"version"</span>: <span class="number">3</span>,</span><br><span class="line">                    <span class="string">"proposals"</span>: <span class="literal">true</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"useESModules"</span>: <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>并且可以实现 polyfill 的按需加载。</p>
+<h3 id="vue-cli"><a href="#vue-cli" class="headerlink" title="vue cli"></a>vue cli</h3><p>为什么会有 core-js2 和 core-js3 的方式呢？是因为某些项目中有些包限制，之前的版本可能是基于 core-js2 构建，所有这种情况下只能选择 core-js2。</p>
+<p>当使用 vue cli 构建时，cli3 基于 core-js2;cli3 以上基于 core-js3,因此不同的 vue cli 版本也会有不同的处理。一般来说，在 babel.config.js 中，会这样编写：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  presets: [</span><br><span class="line">    <span class="comment">// [</span></span><br><span class="line">    <span class="comment">//   "@babel/preset-env",</span></span><br><span class="line">    <span class="comment">//   // 设置plugins后可以不写这个配置项，免得重复打包增加包大小</span></span><br><span class="line">    <span class="comment">//   // webpack直接集成vue方式</span></span><br><span class="line">    <span class="comment">//   &#123;</span></span><br><span class="line">    <span class="comment">//     useBuiltIns: "entry"</span></span><br><span class="line">    <span class="comment">//   &#125;</span></span><br><span class="line">    <span class="comment">// ],</span></span><br><span class="line">    <span class="comment">// [</span></span><br><span class="line">    <span class="comment">//   "@babel/preset-react",</span></span><br><span class="line">    <span class="comment">//   &#123;</span></span><br><span class="line">    <span class="comment">//     throwIfNamespace: false</span></span><br><span class="line">    <span class="comment">//   &#125;</span></span><br><span class="line">    <span class="comment">// ],</span></span><br><span class="line">    <span class="comment">// vue cli方式</span></span><br><span class="line">    [</span><br><span class="line">      <span class="string">"@vue/app"</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">// polyfills: [</span></span><br><span class="line">        <span class="comment">//   "es6.promise",</span></span><br><span class="line">        <span class="comment">//   "es6.symbol",</span></span><br><span class="line">        <span class="comment">//   "es6.string.includes",</span></span><br><span class="line">        <span class="comment">//   "es7.array.includes",</span></span><br><span class="line">        <span class="comment">//   "es6.string.repeat"</span></span><br><span class="line">        <span class="comment">// ]</span></span><br><span class="line">        useBuiltIns: <span class="string">"entry"</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  ],</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="comment">// ["@babel/plugin-proposal-class-properties"],</span></span><br><span class="line">    [</span><br><span class="line">      <span class="string">"import"</span>,</span><br><span class="line">      &#123; <span class="attr">libraryName</span>: <span class="string">"ant-design-vue"</span>, <span class="attr">libraryDirectory</span>: <span class="string">"es"</span>, <span class="attr">style</span>: <span class="string">"css"</span> &#125;,</span><br><span class="line">    ],</span><br><span class="line">    [</span><br><span class="line">      <span class="string">"import"</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        libraryName: <span class="string">"vant"</span>,</span><br><span class="line">        libraryDirectory: <span class="string">"es"</span>,</span><br><span class="line">        style: <span class="literal">true</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"vant"</span>,</span><br><span class="line">    ],</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果是 cli3 以上的版本，则可以通过如下配置来实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  presets: [</span><br><span class="line">    [</span><br><span class="line">      <span class="string">"@vue/app"</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        polyfills: [<span class="string">"es.promise"</span>, <span class="string">"es.symbol"</span>],</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在上面两种方式中，均可以在 package.json 中定义目标浏览器<code>browserslist</code>，该值会被<code>@babel/preset-env</code>读取到，用来确定需要转译的 js 特性，比如在 package.json 中我们可以这样定义：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"browserslist": [</span><br><span class="line">    "&gt; 1%",</span><br><span class="line">    <span class="string">"last 2 versions"</span></span><br><span class="line">  ],</span><br></pre></td></tr></table></figure>
+
+<p>在 vue cli 中，默认情况下 babel-loader 会忽略所有 node_modules 中的文件。如果你想要通过 Babel 显式转译一个依赖，可以在<code>transpileDependencies</code>选项中列出来,比如<code>@antv/g6</code>默认支持 es6，如果我们项目中有依赖该库，那就只能在 vue.config.js 文件的<code>transpileDependencies</code>字段中指定：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  transpileDependencies: [<span class="string">"@antv/g6"</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>当没有使用 vue cli 时，我们可以像上文中所诉,在 webpack.config.js 中通过<code>include</code>字段定义：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.m?js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/(node_modules|bower_components)/</span>, <span class="comment">//排除node_modules中的文件</span></span><br><span class="line">        include: [</span><br><span class="line">          resolve(<span class="string">"../node_modules/react-loadable"</span>),</span><br><span class="line">          resolve(<span class="string">"../src"</span>),</span><br><span class="line">          resolve(<span class="string">"./router.config.js"</span>)</span><br><span class="line">        ],</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+        
+        <br />
+        <div id="comment-container">
+            
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+        <div id="valine-container">
+          <!-- valine评论 -->
+          <section id="comments" class="comments">
+          </section>
+            <style>
+              .comments{margin:30px;padding:10px;background:rgb(255, 255, 255)}
+              @media screen and (max-width:400px){.comments{margin:auto;padding:10px;background:rgb(214, 252, 203)}}
+            </style>
+            <div id="vcomment" class="comment"></div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/guan-jie-65">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/6435500079">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/movethink">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://yiwenzhe.com/" target="_blank" rel="noopener">YWZ</a></span>
+        <span>/</span>
+        
+        <span><a href="https://codec.fun/" target="_blank" rel="noopener">技巅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://coolshell.cn/" target="_blank" rel="noopener">COOLSHELL</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.yinwang.org/" target="_blank" rel="noopener">WANGYIN</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<!-- 评论系统 -->
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  var notify = "false" == true ? true : false;
+  var verify = "false" == true ? true : false;
+  new Valine({
+    av: AV,
+    el: "#vcomment",
+    notify: notify,
+    app_id: "Ymj3Wec8bNrVWvOrrIw0P1kG-MdYXbMMI",
+    app_key: "3CPCEBWW5sbk2TicczVjaXVf",
+    placeholder: "请留下宝贵的评论",
+    avatar: "retro",
+  });
+</script>
+
+
+
+
+</html>

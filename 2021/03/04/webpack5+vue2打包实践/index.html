@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="guanhongjie的博客">
+    <meta name="keyword"  content="guanhongjie的博客">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        webpack5+vue2打包实践 - guanhongjie
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 逆水行舟 不进则退 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Hongjie Guan</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备过程"><span class="toc-text">准备过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建项目"><span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集成-webpack"><span class="toc-text">集成 webpack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6-转-ES5"><span class="toc-text">ES6 转 ES5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打包中间件"><span class="toc-text">打包中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打包"><span class="toc-text">打包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化打包大小"><span class="toc-text">优化打包大小</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上传-npm"><span class="toc-text">上传 npm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置代码以及目录结构"><span class="toc-text">配置代码以及目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 逆水行舟 不进则退 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        webpack5+vue2打包实践
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-03-04 14:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#js" title="js">js</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#vue" title="vue">vue</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#webpack" title="webpack">webpack</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在图转换中间件的开发过程中，需要准备一个开发测试打包一体化环境，该环境至少需要把开发好的中间件代码打包，并上传到我们的私有 npm 仓库中。</p>
+<p>中间件代码如下：</p>
+<img src="http://qiniu.js-5.com/%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%BB%93%E6%9E%84.png" width="250px" height="270px">
+
+<h2 id="准备过程"><a href="#准备过程" class="headerlink" title="准备过程"></a>准备过程</h2><p>由于之前的开发测试环境有太多无关代码，现在准备自己重新着手搭建一个纯净的打包环境。优先实现 library（即中间件源码） 文件打包并上传到 npm 中；其次实现本地启动 webpack server，用来作为开发环境调试代码服务器；再次实现本地 vue 项目打包，并放在服务器中可用</p>
+<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>新建一个项目文件夹，起名 test，然后在当前项目目录运行</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure>
+
+<p>可以看到当前生成了一个 package.json 文件</p>
+<p>然后在当前目录中新建 src 文件夹，用来存放项目代码。并把我们的中间件文件放入其中。现在文件目录是这样的：</p>
+<img src="http://qiniu.js-5.com/%E5%88%9D%E5%A7%8B%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" style="max-width:100%">
+
+<h2 id="集成-webpack"><a href="#集成-webpack" class="headerlink" title="集成 webpack"></a>集成 webpack</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>我们需要把中间件代码打包成一个文件，方便压缩代码和引用等。现在引入 webpack 作为打包工具。由于现在 webpack5 比较新，我们直接安装 webpack5</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack@<span class="number">5</span> --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>当前初始的 package.json 文件是这样的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"test"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"description"</span>: <span class="string">"test"</span>,</span><br><span class="line">  <span class="string">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"keywords"</span>: [</span><br><span class="line">    <span class="string">"test"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"author"</span>: <span class="string">"guan"</span>,</span><br><span class="line">  <span class="string">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="string">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"webpack"</span>: <span class="string">"^5.24.3"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>我们利用 webpack 文件，把一些基本的 webpack 配置写在文件里，然后通过 package.json 中的命令行执行 webpack 命令。</p>
+<p>为了试验，我们在 src 目录下新建 index.js 文件，输入测试代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> test = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"hello webpack!"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> &#123; test &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在根目录下新建 webpack.config.js 文件，输入以下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mode: <span class="string">"production"</span>, <span class="comment">// 选择模式为生产</span></span><br><span class="line">  entry: <span class="string">"./src/index.js"</span>, <span class="comment">// 入口文件</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">"main.js"</span>, <span class="comment">// 出口文件名称</span></span><br><span class="line">    library: <span class="string">"ynChartMiddleware"</span>, <span class="comment">// library暴露出来的名称</span></span><br><span class="line">    libraryTarget: <span class="string">"umd"</span>, <span class="comment">//在 AMD 或 CommonJS require 之后可访问</span></span><br><span class="line">    path: path.resolve(__dirname, <span class="string">"lib"</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 打包代码不压缩</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    minimize: <span class="literal">false</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后在 package.json scripts 字段下加入以下命令：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"build"</span>: <span class="string">"webpack --config webpack.config.js"</span></span><br></pre></td></tr></table></figure>
+
+<p>现在在控制台执行命令：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<p>控制台报错：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CLI <span class="keyword">for</span> webpack must be installed.</span><br><span class="line">  webpack-cli (https:<span class="comment">//github.com/webpack/webpack-cli)</span></span><br><span class="line"></span><br><span class="line">We will use <span class="string">"npm"</span> to install the CLI via <span class="string">"npm install -D webpack-cli"</span>.</span><br><span class="line">Do you want to install <span class="string">'webpack-cli'</span> (yes/no):</span><br></pre></td></tr></table></figure>
+
+<p>因为我们想要使用命令行方式调用 webpack 需要首先安装 webpack-cli，所以我们选择安装；再次执行打包命令后得到目标文件（lib/main.js）代码:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">webpackUniversalModuleDefinition</span>(<span class="params">root, factory</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> exports === <span class="string">"object"</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">module</span> === <span class="string">"object"</span>)</span><br><span class="line">    <span class="built_in">module</span>.exports = factory();</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> define === <span class="string">"function"</span> &amp;&amp; define.amd) define([], factory);</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> exports === <span class="string">"object"</span>)</span><br><span class="line">    exports[<span class="string">"ynChartMiddleware"</span>] = factory();</span><br><span class="line">  <span class="keyword">else</span> root[<span class="string">"ynChartMiddleware"</span>] = factory();</span><br><span class="line">&#125;)(self, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="comment">/******/</span> <span class="function">(<span class="params">(</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// webpackBootstrap</span></span><br><span class="line">    <span class="comment">/******/</span> <span class="string">"use strict"</span>; <span class="comment">// The require scope</span></span><br><span class="line">   ...</span><br><span class="line">   <span class="comment">// 中间部分省略</span></span><br><span class="line">   ...</span><br><span class="line">    <span class="keyword">var</span> __webpack_exports__ = &#123;&#125;;</span><br><span class="line">    __webpack_require__.r(__webpack_exports__);</span><br><span class="line">    <span class="comment">/* harmony export */</span> __webpack_require__.d(__webpack_exports__, &#123;</span><br><span class="line">      <span class="comment">/* harmony export */</span> test: <span class="function"><span class="params">()</span> =&gt;</span> <span class="comment">/* binding */</span> test,</span><br><span class="line">      <span class="comment">/* harmony export */</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> test = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"hello webpack!"</span>);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/******/</span> <span class="keyword">return</span> __webpack_exports__;</span><br><span class="line">    <span class="comment">/******/</span></span><br><span class="line">  &#125;)();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>当前文件目录结构：</p>
+<img src="http://qiniu.js-5.com/%E6%89%93%E5%8C%85%E6%B5%8B%E8%AF%95.png" style="max-width:100%">
+
+<p>上图可以看到，我们确实把 src/index.js 文件代码打包成了 lib/main.js</p>
+<h2 id="ES6-转-ES5"><a href="#ES6-转-ES5" class="headerlink" title="ES6 转 ES5"></a>ES6 转 ES5</h2><p>在上面的实践中，我们可以看到，虽然我们实现了模块化打包，但是我们发现 webpack 并没有自动进行代码版本转换。</p>
+<p>原代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> test = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"hello webpack!"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> &#123; test &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>打包后：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="comment">/******/</span> <span class="function">(<span class="params">(</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// webpackBootstrap</span></span><br><span class="line">  <span class="comment">/******/</span> <span class="string">"use strict"</span>; <span class="comment">// The require scope</span></span><br><span class="line">  <span class="comment">/******/</span> <span class="comment">/******/</span> <span class="keyword">var</span> __webpack_require__ = &#123;&#125;; <span class="comment">/* webpack/runtime/define property getters */</span></span><br><span class="line">  <span class="comment">/******/</span></span><br><span class="line">  <span class="comment">/************************************************************************/</span></span><br><span class="line">  <span class="comment">/******/</span> <span class="comment">/******/</span> (<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">/******/</span> <span class="comment">// define getter functions for harmony exports</span></span><br><span class="line">    <span class="comment">/******/</span> __webpack_require__.d = <span class="function">(<span class="params">exports, definition</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">/******/</span> <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> definition) &#123;</span><br><span class="line">        <span class="comment">/******/</span> <span class="keyword">if</span> (</span><br><span class="line">          __webpack_require__.o(definition, key) &amp;&amp;</span><br><span class="line">          !__webpack_require__.o(exports, key)</span><br><span class="line">        ) &#123;</span><br><span class="line">          <span class="comment">/******/</span> <span class="built_in">Object</span>.defineProperty(exports, key, &#123;</span><br><span class="line">            enumerable: <span class="literal">true</span>,</span><br><span class="line">            <span class="keyword">get</span>: definition[key],</span><br><span class="line">          &#125;);</span><br><span class="line">          /******/</span><br><span class="line">        &#125;</span><br><span class="line">        /******/</span><br><span class="line">      &#125;</span><br><span class="line">      /******/</span><br><span class="line">    &#125;;</span><br><span class="line">    /******/</span><br><span class="line">  &#125;)(); /* webpack/runtime/hasOwnProperty shorthand */</span><br><span class="line">  /******/</span><br><span class="line">  /******/ /******/ (() =&gt; &#123;</span><br><span class="line">    <span class="comment">/******/</span> __webpack_require__.o = <span class="function">(<span class="params">obj, prop</span>) =&gt;</span></span><br><span class="line">      <span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, prop);</span><br><span class="line">    <span class="comment">/******/</span></span><br><span class="line">  &#125;)(); <span class="comment">/* webpack/runtime/make namespace object */</span></span><br><span class="line">  <span class="comment">/******/</span></span><br><span class="line">  <span class="comment">/******/</span> <span class="comment">/******/</span> (<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">/******/</span> <span class="comment">// define __esModule on exports</span></span><br><span class="line">    <span class="comment">/******/</span> __webpack_require__.r = <span class="function">(<span class="params">exports</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">/******/</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">Symbol</span> !== <span class="string">"undefined"</span> &amp;&amp; <span class="built_in">Symbol</span>.toStringTag) &#123;</span><br><span class="line">        <span class="comment">/******/</span> <span class="built_in">Object</span>.defineProperty(exports, <span class="built_in">Symbol</span>.toStringTag, &#123;</span><br><span class="line">          value: <span class="string">"Module"</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">/******/</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">/******/</span> <span class="built_in">Object</span>.defineProperty(exports, <span class="string">"__esModule"</span>, &#123; <span class="attr">value</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">      <span class="comment">/******/</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">/******/</span></span><br><span class="line">  &#125;)();</span><br><span class="line">  <span class="comment">/******/</span></span><br><span class="line">  <span class="comment">/************************************************************************/</span></span><br><span class="line">  <span class="keyword">var</span> __webpack_exports__ = &#123;&#125;;</span><br><span class="line">  __webpack_require__.r(__webpack_exports__);</span><br><span class="line">  <span class="comment">/* harmony export */</span> __webpack_require__.d(__webpack_exports__, &#123;</span><br><span class="line">    <span class="comment">/* harmony export */</span> test: <span class="function"><span class="params">()</span> =&gt;</span> <span class="comment">/* binding */</span> test,</span><br><span class="line">    <span class="comment">/* harmony export */</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">const</span> test = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"hello webpack!"</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/******/</span> <span class="keyword">return</span> __webpack_exports__;</span><br><span class="line">  <span class="comment">/******/</span></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>这样的代码在 ie11 中无法运行，我们得把 es6 语法编译为 es5。</p>
+<p>首先我们把 webpack 自己生成的打包代码变为 es5，这需要再 webpack.config.js 中配置参数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target: [<span class="string">"web"</span>, <span class="string">"es5"</span>],</span><br></pre></td></tr></table></figure>
+
+<p>该参数意思是打包时编译为类浏览器环境，并按 es5 的风格进行打包。但是这样只会改变 webpack 默认的打包代码，而我们自己的代码任然不会被转码。</p>
+<p>因此我们需要引入 babel，来转码我们的 js 文件。先在 webpack 中添加 babel 规则，可以正则检测文件。也可以认为，在 webpack 中使用 babel 就需要使用 babel-loader 来作为连接纽带，用来编译目标文件代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.m?js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/(node_modules)/</span>,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>我们需要安装 babel-loader 包和 @babel/core 包，并且需要在根目录创建一个 babel 配置文件，文件名为”.babelrc”，该文件用来告诉 babel 应该如何转码文件，该文件配置如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">"@babel/preset-env"</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">"useBuiltIns"</span>: <span class="string">"usage"</span>,</span><br><span class="line">                <span class="string">"modules"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="string">"corejs"</span>: &#123;</span><br><span class="line">                    <span class="string">"version"</span>: <span class="number">3</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"targets"</span>: &#123;</span><br><span class="line">                    <span class="string">"ie"</span>: <span class="string">"11"</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该文件主要定义了输出的代码版本，以上用到了 @babel/preset-env 用来转换代码，所以我们需要安装它。</p>
+<p>现在我们再次执行 build 命令，得到如下编译过后的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="comment">/******/</span> (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// webpackBootstrap</span></span><br><span class="line">  <span class="comment">/******/</span> <span class="string">"use strict"</span>; <span class="comment">// The require scope</span></span><br><span class="line">  <span class="comment">/******/</span> <span class="comment">/******/</span> <span class="keyword">var</span> __webpack_require__ = &#123;&#125;; <span class="comment">/* webpack/runtime/define property getters */</span></span><br><span class="line">  <span class="comment">/******/</span></span><br><span class="line">  <span class="comment">/************************************************************************/</span></span><br><span class="line">  <span class="comment">/******/</span> <span class="comment">/******/</span> !(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">/******/</span> <span class="comment">// define getter functions for harmony exports</span></span><br><span class="line">    <span class="comment">/******/</span> __webpack_require__.d = <span class="function"><span class="keyword">function</span> (<span class="params">exports, definition</span>) </span>&#123;</span><br><span class="line">      <span class="comment">/******/</span> <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> definition) &#123;</span><br><span class="line">        <span class="comment">/******/</span> <span class="keyword">if</span> (</span><br><span class="line">          __webpack_require__.o(definition, key) &amp;&amp;</span><br><span class="line">          !__webpack_require__.o(exports, key)</span><br><span class="line">        ) &#123;</span><br><span class="line">          <span class="comment">/******/</span> <span class="built_in">Object</span>.defineProperty(exports, key, &#123;</span><br><span class="line">            enumerable: <span class="literal">true</span>,</span><br><span class="line">            <span class="keyword">get</span>: definition[key],</span><br><span class="line">          &#125;);</span><br><span class="line">          /******/</span><br><span class="line">        &#125;</span><br><span class="line">        /******/</span><br><span class="line">      &#125;</span><br><span class="line">      /******/</span><br><span class="line">    &#125;;</span><br><span class="line">    /******/</span><br><span class="line">  &#125;)(); /* webpack/runtime/hasOwnProperty shorthand */</span><br><span class="line">  /******/</span><br><span class="line">  /******/ /******/ !(function () &#123;</span><br><span class="line">    <span class="comment">/******/</span> __webpack_require__.o = <span class="function"><span class="keyword">function</span> (<span class="params">obj, prop</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, prop);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">/******/</span></span><br><span class="line">  &#125;)(); <span class="comment">/* webpack/runtime/make namespace object */</span></span><br><span class="line">  <span class="comment">/******/</span></span><br><span class="line">  <span class="comment">/******/</span> <span class="comment">/******/</span> !(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">/******/</span> <span class="comment">// define __esModule on exports</span></span><br><span class="line">    <span class="comment">/******/</span> __webpack_require__.r = <span class="function"><span class="keyword">function</span> (<span class="params">exports</span>) </span>&#123;</span><br><span class="line">      <span class="comment">/******/</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">Symbol</span> !== <span class="string">"undefined"</span> &amp;&amp; <span class="built_in">Symbol</span>.toStringTag) &#123;</span><br><span class="line">        <span class="comment">/******/</span> <span class="built_in">Object</span>.defineProperty(exports, <span class="built_in">Symbol</span>.toStringTag, &#123;</span><br><span class="line">          value: <span class="string">"Module"</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">/******/</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">/******/</span> <span class="built_in">Object</span>.defineProperty(exports, <span class="string">"__esModule"</span>, &#123; <span class="attr">value</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">      <span class="comment">/******/</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">/******/</span></span><br><span class="line">  &#125;)();</span><br><span class="line">  <span class="comment">/******/</span></span><br><span class="line">  <span class="comment">/************************************************************************/</span></span><br><span class="line">  <span class="keyword">var</span> __webpack_exports__ = &#123;&#125;;</span><br><span class="line">  __webpack_require__.r(__webpack_exports__);</span><br><span class="line">  <span class="comment">/* harmony export */</span> __webpack_require__.d(__webpack_exports__, &#123;</span><br><span class="line">    <span class="comment">/* harmony export */</span> test: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="comment">/* binding */</span> test;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">/* harmony export */</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">var</span> test = <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"hello webpack!"</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/******/</span> <span class="keyword">return</span> __webpack_exports__;</span><br><span class="line">  <span class="comment">/******/</span></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，我们的代码已经正确的转换了箭头函数，已经把 es6 风格的代码转换成了 es5</p>
+<p>综上所述，babel 用来转换代码版本，需要 3 个包：@babel/core babel-loader @babel/preset-env</p>
+<h2 id="打包中间件"><a href="#打包中间件" class="headerlink" title="打包中间件"></a>打包中间件</h2><h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>现在我们已经用测试文件做好了前期准备，现在我们把 webpack.config.js 中的入口文件改为中间件文件，然后出口文件名改为中间件名。</p>
+<p>可以看到报了如下错误：</p>
+<img src="http://qiniu.js-5.com/corejs%E6%8A%A5%E9%94%99.png" style="max-width:100%">
+
+<p>这提示我们没有安装 core-js 模块，无法找到对应的转换方法。执行：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install core-js --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>再重现 build，发现中间件中使用了 echarts，而我们也需要安装一下 echarts 包；当所有需要用到的包全部安装完毕后，我们可以看到，打包成功了。</p>
+<h3 id="优化打包大小"><a href="#优化打包大小" class="headerlink" title="优化打包大小"></a>优化打包大小</h3><p>我们查看打包文件，代码风格是我们需要的 es5，但是打包文件有 3.5M，这明显太大了，我们需要减小大小。</p>
+<p>首先第一步是代码压缩，压缩后大小从 3.5M 变为了 0.9M，明显还是太大了。</p>
+<p>我们思考是不是可以不要打包某些包进中间件，比如 echarts。因为中间件宿主环境，也一定会引入 echarts，所以 echarts 可以不用打包进中间件。我们在 webpack 配置文件中加入以下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">externals: &#123;</span><br><span class="line">    echarts: &#123;</span><br><span class="line">      commonjs: <span class="string">"echarts"</span>,</span><br><span class="line">      commonjs2: <span class="string">"echarts"</span>,</span><br><span class="line">      amd: <span class="string">"echarts"</span>,</span><br><span class="line">      root: <span class="string">"_"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>重新打包，我们发现包文件已经变为 66KB，相比于之前的 3.5M，已经小非常多了。现在这个库文件，就已经打包完成了。</p>
+<h2 id="上传-npm"><a href="#上传-npm" class="headerlink" title="上传 npm"></a>上传 npm</h2><p>上传到 npm 中时，包名默认 package.json 中的 name 字段，引用路径默认 main 字段。比如我们把 package.json 改为如下，代表我们包名为 yn-chart-middleware，用户下载包后默认会引用“./lib/yn-chart-middleware.js”目录下的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"yn-chart-middleware"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"description"</span>: <span class="string">"test"</span>,</span><br><span class="line">  <span class="string">"main"</span>: <span class="string">"./lib/yn-chart-middleware.js"</span>,</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>,</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack --config webpack.config.js"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"keywords"</span>: [</span><br><span class="line">    <span class="string">"test"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"author"</span>: <span class="string">"guan"</span>,</span><br><span class="line">  <span class="string">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  ...</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发布包时先使用 npm login 登录 npm，然后 npm publish 即可发布自己的包</p>
+<p>注意：内网环境下，需要先切换 npm 源，然后登录内网 npm。之后的操作和 npm 一致</p>
+<p>在有时候，我们不希望自己的开发文件，比如 src/目录下的文件被上传到 npm，我们可以选择不上传这部分文件到 npm 上。如下，在 package.json 中增加如下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"files"</span>: [</span><br><span class="line">		<span class="string">"lib"</span></span><br><span class="line">	],</span><br></pre></td></tr></table></figure>
+
+<p>表明只把根目录下 lib 文件夹内容上传到 npm</p>
+<p>除了上面的白名单模式，还有黑名单模式（及指定不传的文件，上传所有其他文件）</p>
+<h2 id="配置代码以及目录结构"><a href="#配置代码以及目录结构" class="headerlink" title="配置代码以及目录结构"></a>配置代码以及目录结构</h2><p>目录结构：</p>
+<img src="http://qiniu.js-5.com/%E5%AE%8C%E6%88%90%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" style="max-width:100%">
+
+<p>.babelrc 文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"presets"</span>: [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">"@babel/preset-env"</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">"useBuiltIns"</span>: <span class="string">"usage"</span>,</span><br><span class="line">                <span class="string">"modules"</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="string">"corejs"</span>: &#123;</span><br><span class="line">                    <span class="string">"version"</span>: <span class="number">3</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"targets"</span>: &#123;</span><br><span class="line">                    <span class="string">"ie"</span>: <span class="string">"11"</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>webpack.config.js 文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  mode: <span class="string">"production"</span>, <span class="comment">// 选择模式为生产</span></span><br><span class="line">  entry: <span class="string">"./src/yn-chart-middleware/index.js"</span>, <span class="comment">// 入口文件</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">"ynChartMiddleware.js"</span>, <span class="comment">// 出口文件名称</span></span><br><span class="line">    library: <span class="string">"ynChartMiddleware"</span>, <span class="comment">// library暴露出来的名称</span></span><br><span class="line">    libraryTarget: <span class="string">"umd"</span>, <span class="comment">//在 AMD 或 CommonJS require 之后可访问</span></span><br><span class="line">    path: path.resolve(__dirname, <span class="string">"lib"</span>), <span class="comment">// 定义出口文件夹目录</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 打包代码不压缩</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    minimize: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  target: [<span class="string">"web"</span>, <span class="string">"es5"</span>],</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.m?js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/(node_modules|bower_components)/</span>,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 把以下依赖不打入包中，让包文件去外部宿主中引入这些依赖</span></span><br><span class="line">  externals: &#123;</span><br><span class="line">    echarts: &#123;</span><br><span class="line">      commonjs: <span class="string">"echarts"</span>,</span><br><span class="line">      commonjs2: <span class="string">"echarts"</span>,</span><br><span class="line">      amd: <span class="string">"echarts"</span>,</span><br><span class="line">      root: <span class="string">"_"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>package.json 文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"test"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"description"</span>: <span class="string">"test"</span>,</span><br><span class="line">  <span class="string">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="string">"files"</span>: [</span><br><span class="line">		<span class="string">"lib"</span></span><br><span class="line">	],</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>,</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack --config webpack.config.js"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"keywords"</span>: [</span><br><span class="line">    <span class="string">"test"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"author"</span>: <span class="string">"guan"</span>,</span><br><span class="line">  <span class="string">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="string">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"@babel/core"</span>: <span class="string">"^7.13.8"</span>,</span><br><span class="line">    <span class="string">"@babel/preset-env"</span>: <span class="string">"^7.13.9"</span>,</span><br><span class="line">    <span class="string">"babel-loader"</span>: <span class="string">"^8.2.2"</span>,</span><br><span class="line">    <span class="string">"core-js"</span>: <span class="string">"^3.9.1"</span>,</span><br><span class="line">    <span class="string">"webpack"</span>: <span class="string">"^5.24.3"</span>,</span><br><span class="line">    <span class="string">"webpack-cli"</span>: <span class="string">"^4.5.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"echarts"</span>: <span class="string">"^5.0.2"</span>,</span><br><span class="line">    <span class="string">"number-precision"</span>: <span class="string">"^1.5.0"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://webpack.docschina.org/guides/production/" target="_blank" rel="noopener">webpack 手册</a></p>
+
+        
+        <br />
+        <div id="comment-container">
+            
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+        <div id="valine-container">
+          <!-- valine评论 -->
+          <section id="comments" class="comments">
+          </section>
+            <style>
+              .comments{margin:30px;padding:10px;background:rgb(255, 255, 255)}
+              @media screen and (max-width:400px){.comments{margin:auto;padding:10px;background:rgb(214, 252, 203)}}
+            </style>
+            <div id="vcomment" class="comment"></div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/guan-jie-65">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/6435500079">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/movethink">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://yiwenzhe.com/" target="_blank" rel="noopener">YWZ</a></span>
+        <span>/</span>
+        
+        <span><a href="https://codec.fun/" target="_blank" rel="noopener">技巅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://coolshell.cn/" target="_blank" rel="noopener">COOLSHELL</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.yinwang.org/" target="_blank" rel="noopener">WANGYIN</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<!-- 评论系统 -->
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  var notify = "false" == true ? true : false;
+  var verify = "false" == true ? true : false;
+  new Valine({
+    av: AV,
+    el: "#vcomment",
+    notify: notify,
+    app_id: "Ymj3Wec8bNrVWvOrrIw0P1kG-MdYXbMMI",
+    app_key: "3CPCEBWW5sbk2TicczVjaXVf",
+    placeholder: "请留下宝贵的评论",
+    avatar: "retro",
+  });
+</script>
+
+
+
+
+</html>

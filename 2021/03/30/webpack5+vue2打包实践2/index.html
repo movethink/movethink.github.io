@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="guanhongjie的博客">
+    <meta name="keyword"  content="guanhongjie的博客">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        webpack5+vue2打包实践2 - guanhongjie
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 逆水行舟 不进则退 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Hongjie Guan</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#集成-vue"><span class="toc-text">集成 vue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#拆分-webpack-配置"><span class="toc-text">拆分 webpack 配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置开发环境-webpack"><span class="toc-text">配置开发环境 webpack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集成-vue-1"><span class="toc-text">集成 vue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 逆水行舟 不进则退 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        webpack5+vue2打包实践2
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-03-30 14:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#js" title="js">js</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#vue" title="vue">vue</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#webpack" title="webpack">webpack</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="集成-vue"><a href="#集成-vue" class="headerlink" title="集成 vue"></a>集成 vue</h2><h3 id="拆分-webpack-配置"><a href="#拆分-webpack-配置" class="headerlink" title="拆分 webpack 配置"></a>拆分 webpack 配置</h3><p>由于我们要在环境中集成 vue，需要在本地进行调试 vue 代码，所以我们至少需要两套环境，一套 dev 配置，用来打开一个本地服务器；一套 prod 配置，用来打包 labreries，我们引入<code>webpack-merge</code>包，来拆分 webpack 配置。</p>
+<p><code>webpack.common.js</code>文件用来存放 dev 和 prod 共同存在的配置</p>
+<p><code>webpack.dev.js</code>用来存放 development 环境的配置</p>
+<p><code>webpack.prod.js</code>用来存放 production 环境配置</p>
+<p>我们把<code>webpack.config.js</code>文件直接变为<code>webpack.prod.js</code>，然后在其中通过 webpack-merge 包，合并 common 与 prod 文件中的 webpack 配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; merge &#125; = <span class="built_in">require</span>(<span class="string">"webpack-merge"</span>);</span><br><span class="line"><span class="keyword">const</span> common = <span class="built_in">require</span>(<span class="string">"./webpack.common"</span>);</span><br><span class="line"></span><br><span class="line">prod = &#123;</span><br><span class="line">  mode: <span class="string">"production"</span>, <span class="comment">// 选择模式为生产</span></span><br><span class="line">  entry: <span class="string">"./src/yn-chart-middleware/index.js"</span>, <span class="comment">// 入口文件</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">"ynChartMiddleware.js"</span>, <span class="comment">// 出口文件名称</span></span><br><span class="line">    library: <span class="string">"ynChartMiddleware"</span>, <span class="comment">// library暴露出来的名称</span></span><br><span class="line">    libraryTarget: <span class="string">"umd"</span>, <span class="comment">//在 AMD 或 CommonJS require 之后可访问</span></span><br><span class="line">    path: path.resolve(__dirname, <span class="string">"lib"</span>), <span class="comment">// 定义出口文件夹目录</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 打包代码不压缩</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    minimize: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  target: [<span class="string">"web"</span>, <span class="string">"es5"</span>],</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.m?js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/(node_modules|bower_components)/</span>,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 把以下依赖不打入包中，让包文件去外部宿主中引入这些依赖</span></span><br><span class="line">  externals: &#123;</span><br><span class="line">    echarts: &#123;</span><br><span class="line">      commonjs: <span class="string">"echarts"</span>,</span><br><span class="line">      commonjs2: <span class="string">"echarts"</span>,</span><br><span class="line">      amd: <span class="string">"echarts"</span>,</span><br><span class="line">      root: <span class="string">"_"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = merge(common, prod);</span><br></pre></td></tr></table></figure>
+
+<p><code>webpack.common.js</code>文件可以暂时置空：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>webpack.dev.js</code>文件可以由<code>webpack.prod.js</code>文件复制得到；</p>
+<p>然后我们使用<code>webpack-dev-server</code>包，用来在本地启动一个服务器调试环境。</p>
+<p>修改 package.json：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>,</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack --config webpack.prod.js"</span>,</span><br><span class="line">    <span class="string">"serve"</span>: <span class="string">"webpack serve --open --config webpack.dev.js"</span></span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>现在执行 <code>npm run serve</code>，即可打开一个本地服务。</p>
+<p>如图：</p>
+<p><img src="http://qiniu.js-5.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20210329212507.png" alt=""></p>
+<p>由于当前未定义入口文件，所以本地服务器默认显示出了根目录下文件</p>
+<h3 id="配置开发环境-webpack"><a href="#配置开发环境-webpack" class="headerlink" title="配置开发环境 webpack"></a>配置开发环境 webpack</h3><p>在通过 webpack-dev-server 包启动本地服务的时候，我们必须定义一个 html 的模板文件，用来将打包后的脚本引用添加到 html 文件中，为了方便，我们引入<code>html-webpack-plugin</code>包，为 webpack 自动集成 html 模板。同时，我们为 dev 下定义入口文件和出口文件，入口文件会被打包成 output.filename 定义的 js，自动被引用到<code>html-webpack-plugin</code>生成的 html 模板中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; merge &#125; = <span class="built_in">require</span>(<span class="string">"webpack-merge"</span>);</span><br><span class="line"><span class="keyword">const</span> common = <span class="built_in">require</span>(<span class="string">"./webpack.common"</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">"html-webpack-plugin"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> dev = &#123;</span><br><span class="line">  mode: <span class="string">"development"</span>, <span class="comment">// 选择模式为生产</span></span><br><span class="line">  entry: <span class="string">"./src/index.js"</span>, <span class="comment">// 入口文件</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">"[name].bundle.js"</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">"dist"</span>), <span class="comment">// 定义出口文件夹目录</span></span><br><span class="line">  &#125;,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: path.join(__dirname, <span class="string">"dist"</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 打包代码不压缩</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    minimize: <span class="literal">false</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  target: [<span class="string">"web"</span>, <span class="string">"es5"</span>],</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: path.resolve(__dirname, <span class="string">"public/index.html"</span>), <span class="comment">// 根据public/index.html文件生成模板</span></span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = merge(common, dev);</span><br></pre></td></tr></table></figure>
+
+<p>这里解释一下<code>path.resolve()</code>方法，path 是 node 原生提供的模块，该方法根据运行环境不同会有不同的表现。<code>path.resolve()</code>会把参数中的路径合并成一个绝对路径，<code>__dirname</code>会获得当前执行文件所在目录的完整目录名，<code>path.resolve(__dirname, &quot;public/index.html&quot;)</code>会获取当前执行文件同级目录下 public 文件夹下 index.html 文件。在该项目下，路径会解释为<code>/public/index.html</code></p>
+<p>如果我们在 public 下定义的 index.html 文件为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>那么当我们执行<code>npm run serve</code>后，可以得到：</p>
+<p><img src="http://qiniu.js-5.com/web-server.png" alt=""></p>
+<h3 id="集成-vue-1"><a href="#集成-vue-1" class="headerlink" title="集成 vue"></a>集成 vue</h3><p>在 webpack 中使用 vue，需要用到两个包： <code>vue-loader</code>,<code>vue-template-compiler</code>,其中<code>vue-loader</code>用来转换 vue 的单文件语法，可以用来解析<code>.vue</code>格式文件，<code>vue-template-compiler</code>用来编译模板为渲染函数（template =&gt; ast =&gt; render）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; merge &#125; = <span class="built_in">require</span>(<span class="string">"webpack-merge"</span>);</span><br><span class="line"><span class="keyword">const</span> common = <span class="built_in">require</span>(<span class="string">"./webpack.common"</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">"html-webpack-plugin"</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; VueLoaderPlugin &#125; = <span class="built_in">require</span>(<span class="string">"vue-loader"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> dev = &#123;</span><br><span class="line">  mode: <span class="string">"development"</span>, <span class="comment">// 选择模式为生产</span></span><br><span class="line">  entry: <span class="string">"./src/main.js"</span>, <span class="comment">// 入口文件</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">"[name].bundle.js"</span>,</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">"dist"</span>), <span class="comment">// 定义出口文件夹目录</span></span><br><span class="line">  &#125;,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: path.join(__dirname, <span class="string">"dist"</span>),</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 打包代码不压缩</span></span><br><span class="line">  optimization: &#123;</span><br><span class="line">    minimize: <span class="literal">false</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  target: [<span class="string">"web"</span>, <span class="string">"es5"</span>],</span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.vue$/</span>,</span><br><span class="line">        use: &#123;</span><br><span class="line">          loader: <span class="string">"vue-loader"</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: path.resolve(__dirname, <span class="string">"public/index.html"</span>),</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> VueLoaderPlugin(),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = merge(common, dev);</span><br></pre></td></tr></table></figure>
+
+<p>然后我们在 src 中定义 vue 入口</p>
+<p>新建<code>src/main.js</code>，<code>src/App.vue</code>文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">"./App.vue"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  render: <span class="function">(<span class="params">c</span>) =&gt;</span> c(App),</span><br><span class="line">&#125;).$mount(<span class="string">"#app"</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;hello&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">&lt;style scoped&gt;&lt;/</span>style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后在 webpack 中定义入口文件为<code>src/main.js</code>，运行<code>npm run serve</code>即可看到 vue 文件被正确解析。</p>
+<p>最后的 package.json:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"test"</span>,</span><br><span class="line">  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="string">"description"</span>: <span class="string">"test"</span>,</span><br><span class="line">  <span class="string">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="string">"files"</span>: [</span><br><span class="line">    <span class="string">"lib"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>,</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack --config webpack.prod.js"</span>,</span><br><span class="line">    <span class="string">"serve"</span>: <span class="string">"webpack serve --open --config webpack.dev.js"</span>,</span><br><span class="line">    <span class="string">"dist"</span>: <span class="string">"webpack --config webpack.dev.js"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"keywords"</span>: [</span><br><span class="line">    <span class="string">"test"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"author"</span>: <span class="string">"guan"</span>,</span><br><span class="line">  <span class="string">"license"</span>: <span class="string">"ISC"</span>,</span><br><span class="line">  <span class="string">"devDependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"@babel/core"</span>: <span class="string">"^7.13.8"</span>,</span><br><span class="line">    <span class="string">"@babel/preset-env"</span>: <span class="string">"^7.13.9"</span>,</span><br><span class="line">    <span class="string">"babel-loader"</span>: <span class="string">"^8.2.2"</span>,</span><br><span class="line">    <span class="string">"core-js"</span>: <span class="string">"^3.9.1"</span>,</span><br><span class="line">    <span class="string">"html-webpack-plugin"</span>: <span class="string">"^5.3.1"</span>,</span><br><span class="line">    <span class="string">"vue-loader"</span>: <span class="string">"^15.9.6"</span>,</span><br><span class="line">    <span class="string">"vue-template-compiler"</span>: <span class="string">"^2.6.12"</span>,</span><br><span class="line">    <span class="string">"webpack"</span>: <span class="string">"^5.24.3"</span>,</span><br><span class="line">    <span class="string">"webpack-cli"</span>: <span class="string">"^4.5.0"</span>,</span><br><span class="line">    <span class="string">"webpack-dev-server"</span>: <span class="string">"^3.11.2"</span>,</span><br><span class="line">    <span class="string">"webpack-merge"</span>: <span class="string">"^5.7.3"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"dependencies"</span>: &#123;</span><br><span class="line">    <span class="string">"echarts"</span>: <span class="string">"^5.0.2"</span>,</span><br><span class="line">    <span class="string">"number-precision"</span>: <span class="string">"^1.5.0"</span>,</span><br><span class="line">    <span class="string">"vue"</span>: <span class="string">"^2.6.12"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://webpack.docschina.org/guides/production/" target="_blank" rel="noopener">webpack 手册</a></p>
+
+        
+        <br />
+        <div id="comment-container">
+            
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+        <div id="valine-container">
+          <!-- valine评论 -->
+          <section id="comments" class="comments">
+          </section>
+            <style>
+              .comments{margin:30px;padding:10px;background:rgb(255, 255, 255)}
+              @media screen and (max-width:400px){.comments{margin:auto;padding:10px;background:rgb(214, 252, 203)}}
+            </style>
+            <div id="vcomment" class="comment"></div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/guan-jie-65">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/6435500079">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/movethink">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://yiwenzhe.com/" target="_blank" rel="noopener">YWZ</a></span>
+        <span>/</span>
+        
+        <span><a href="https://codec.fun/" target="_blank" rel="noopener">技巅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://coolshell.cn/" target="_blank" rel="noopener">COOLSHELL</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.yinwang.org/" target="_blank" rel="noopener">WANGYIN</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<!-- 评论系统 -->
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  var notify = "false" == true ? true : false;
+  var verify = "false" == true ? true : false;
+  new Valine({
+    av: AV,
+    el: "#vcomment",
+    notify: notify,
+    app_id: "Ymj3Wec8bNrVWvOrrIw0P1kG-MdYXbMMI",
+    app_key: "3CPCEBWW5sbk2TicczVjaXVf",
+    placeholder: "请留下宝贵的评论",
+    avatar: "retro",
+  });
+</script>
+
+
+
+
+</html>

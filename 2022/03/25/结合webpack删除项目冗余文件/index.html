@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="guanhongjie的博客">
+    <meta name="keyword"  content="guanhongjie的博客">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        结合webpack删除项目冗余文件 - guanhongjie
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 逆水行舟 不进则退 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Hongjie Guan</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思考"><span class="toc-text">思考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#获取编译文件"><span class="toc-text">获取编译文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取全部文件"><span class="toc-text">获取全部文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取待删除文件"><span class="toc-text">获取待删除文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除文件"><span class="toc-text">删除文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到的问题"><span class="toc-text">遇到的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文档"><span class="toc-text">参考文档</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 逆水行舟 不进则退 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        结合webpack删除项目冗余文件
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2022-03-25 20:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#js" title="js">js</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>项目中有许多冗余文件，非常影响项目大小，因此需要删除不需要的文件</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>手动删除非常麻烦并且无法保证清除效果，因此想办法找出某种规律批量删除。</p>
+<p>前端项目一般使用 webpack 打包，打包的过程中 webpack 会根据入口文件遍历出所有文件，因此可以利用 webpack 来确定项目中哪些文件可用。而项目中的所有文件可以通过 nodejs 得到，因此可以通过 webpack 和 nodejs 做文件对比，然后自动清除未被编译引用的文件，思路如下：</p>
+<p>1.在项目 webpack 编译时，会从入口处自动遍历需要的文件，并且在编译过程中，会形成一个 stats.json 文件，用来展示这种引用关系。</p>
+<p>2.我们可以从 stats.json 中得到所有编译需要的文件的原始路径</p>
+<p>3.我们可以得到项目中所有的文件的原始路径</p>
+<p>4.我们可以通过对比两边的路径，从而得到未被编译的文件的路径</p>
+<p>5.我们可以通过 shelljs 包，通过命令行删除该未被引用的路径文件</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h4 id="获取编译文件"><a href="#获取编译文件" class="headerlink" title="获取编译文件"></a>获取编译文件</h4><p>在 webpack 执行时，我们可以在 webpack 命令后加上<code>--profile --json &gt; stats.json</code>，这样就会最终的输出目录，额外输出一个<code>stats.json</code>文件，里面记录了 webpack 执行的一些 log 信息，或者执行过程等信息。比如：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"ana": "webpack --config webpack.prod.js --profile --json &gt; stats.json"</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>npm run ana</code>命令执行后，即可在 webpack 命令执行输出目录额外输出<code>stats.json</code>文件。</p>
+<p>在 vue cli 中，因为其内部集成了<code>webpack-bundle-analyzer</code>分析工具，所以我们可以使用以下命令获得<code>stats.json</code>文件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"build:ana": "vue-cli-service build '--report-json'",</span><br></pre></td></tr></table></figure>
+
+<p>获得<code>stats.json</code>文件后，通过 fs 模块读取内容。如果文件过大（超过 512M）那么需要使用文件流读取内容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> chunkList = [];</span><br><span class="line"><span class="keyword">let</span> list = [];</span><br><span class="line"><span class="keyword">let</span> stream = fs.createReadStream(statPath, &#123;</span><br><span class="line">  encoding: <span class="string">"utf8"</span>,</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> parser = JSONStream.parse(<span class="string">"modules.*"</span>);</span><br><span class="line">stream.pipe(parser);</span><br><span class="line">parser.on(<span class="string">"data"</span>, (data) =&gt; &#123;</span><br><span class="line">  chunkList = chunkList.concat(data);</span><br><span class="line">&#125;);</span><br><span class="line">parser.end(<span class="string">"data"</span>, (data) =&gt; &#123;</span><br><span class="line">  chunkList = chunkList.map(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      name: item.name,</span><br><span class="line">      modules: item.modules,</span><br><span class="line">      id: item.id,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// todo</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取全部文件"><a href="#获取全部文件" class="headerlink" title="获取全部文件"></a>获取全部文件</h4><p>我们通过 glob 模块，获得项目指定目录下的所有文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAllFilesInSrc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> pattern = <span class="string">"./src/**"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    glob(</span><br><span class="line">      pattern,</span><br><span class="line">      &#123;</span><br><span class="line">        nodir: <span class="literal">true</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      (err, files) =&gt; &#123;</span><br><span class="line">        resolve(files);</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取待删除文件"><a href="#获取待删除文件" class="headerlink" title="获取待删除文件"></a>获取待删除文件</h4><p>我们直接通过对比所有文件和编译文件，来获得待删除文件（未被编译的文件）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// allFile 所有文件数组</span></span><br><span class="line"><span class="comment">// compileFile 被编译使用的文件数组</span></span><br><span class="line"><span class="comment">// unFiles 需要被删除的文件数组</span></span><br><span class="line"><span class="keyword">let</span> unFiles = allFile.filter(<span class="function">(<span class="params">item</span>) =&gt;</span> compileFile.indexOf(item) &lt; <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h4><p>得到待删除文件数组后，我们遍历删除文件即可：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unFiles.forEach(<span class="function">(<span class="params">file</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"已删除文件："</span> + file);</span><br><span class="line">  shelljs.rm(file);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"合计删除文件个数："</span> + unFiles.length);</span><br></pre></td></tr></table></figure>
+
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>1.dashboard 通过设计态和运行态分两次打包，因此需要分析两份 stats.json（解决）</p>
+<p>2.设计态生成的 stats.json 过于巨大（590M)，超过了 nodejs 能默认处理的数据上限（512M）：<br>采用 JSONStream 模块，通过创建文件流，使用 JSONStream 解析文件流，解决该问题</p>
+<p>3.文件解析不准确问题<br>例如’./src/components/charts/yn-echart-bar-dt/index.js’文件用到了，但是没有被统计到编译文件中</p>
+<p>该文件结构类似于：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"modules"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">    ...,</span><br><span class="line">    name: <span class="string">"xxx"</span>,</span><br><span class="line">    ...,</span><br><span class="line">    <span class="string">"modules"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">      ...,</span><br><span class="line">      name: <span class="string">"xxx"</span>,</span><br><span class="line">      ...,</span><br><span class="line">      &#125;</span><br><span class="line">    ]&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们需要读取 modules 数组，如果下层对象中存在 modules 属性，说明该对象是聚合来的，需要把当前 modules 属性迭代出来，加入到编译文件数组中（这里需要递归迭代），这样我们就能拿到全量的编译文件了。</p>
+<p>4.修复误删文件，后来直接添加了忽略列表，用来存放需要忽略删除的文件</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://github.com/ginobilee/blog/issues/10" target="_blank" rel="noopener">利用 webpack 分析和删除冗余文件</a><br><a href="https://www.webpackjs.com/api/stats/#asset-objects" target="_blank" rel="noopener">包含统计数据的文件(stats data)</a></p>
+
+        
+        <br />
+        <div id="comment-container">
+            
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+        <div id="valine-container">
+          <!-- valine评论 -->
+          <section id="comments" class="comments">
+          </section>
+            <style>
+              .comments{margin:30px;padding:10px;background:rgb(255, 255, 255)}
+              @media screen and (max-width:400px){.comments{margin:auto;padding:10px;background:rgb(214, 252, 203)}}
+            </style>
+            <div id="vcomment" class="comment"></div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/guan-jie-65">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/6435500079">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/movethink">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://yiwenzhe.com/" target="_blank" rel="noopener">YWZ</a></span>
+        <span>/</span>
+        
+        <span><a href="https://codec.fun/" target="_blank" rel="noopener">技巅</a></span>
+        <span>/</span>
+        
+        <span><a href="https://coolshell.cn/" target="_blank" rel="noopener">COOLSHELL</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.yinwang.org/" target="_blank" rel="noopener">WANGYIN</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<!-- 评论系统 -->
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  var notify = "false" == true ? true : false;
+  var verify = "false" == true ? true : false;
+  new Valine({
+    av: AV,
+    el: "#vcomment",
+    notify: notify,
+    app_id: "Ymj3Wec8bNrVWvOrrIw0P1kG-MdYXbMMI",
+    app_key: "3CPCEBWW5sbk2TicczVjaXVf",
+    placeholder: "请留下宝贵的评论",
+    avatar: "retro",
+  });
+</script>
+
+
+
+
+</html>
