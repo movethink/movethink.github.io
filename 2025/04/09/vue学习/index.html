@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="guanhongjie的博客">
+    <meta name="keyword"  content="guanhongjie的博客">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        vue学习 - guanhongjie
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 逆水行舟 不进则退 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/img/avatar.jpg" />
+        </div>
+        <div class="name">
+            <i>Hongjie Guan</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vue-数据流"><span class="toc-text">vue 数据流</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vue-响应式数据方案"><span class="toc-text">vue 响应式数据方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#react-的响应式方案"><span class="toc-text">react 的响应式方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#脏检查方案"><span class="toc-text">脏检查方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vue-中的虚拟-DOM"><span class="toc-text">vue 中的虚拟 DOM</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 逆水行舟 不进则退 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        vue学习
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2025-04-09 10:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#js vue" title="js vue">js vue</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h1 id="vue-数据流"><a href="#vue-数据流" class="headerlink" title="vue 数据流"></a>vue 数据流</h1><p>vue 是单向数据流，其中 props 向下，emit 向上。但是可以通过 v-model 实现双向绑定，其本质上是 props 和 emit 的语法糖。</p>
+<h1 id="vue-响应式数据方案"><a href="#vue-响应式数据方案" class="headerlink" title="vue 响应式数据方案"></a>vue 响应式数据方案</h1><p>采用数据劫持+依赖追踪方式</p>
+<p>数据劫持：<br>vue2 采用 Object.defineProperty 来拦截 getter 和 setter 操作，实现响应式<br>vue3 采用 proxy 拦截 getter，setter，has，ownKeys 等操作实现响应式</p>
+<p>为什么改为 proxy：</p>
+<ul>
+<li>因为 defineProperty 对于新增的对象属性无法响应。（需要 vue.set()或者 vue.delete()手动触发响应式更新）</li>
+<li>初始化时性能没有 proxy 好，defineProperty 需要递归遍历对象的所有属性，并劫持 getter 和 setter，对深层嵌套对象性能较差。每次劫持需要创建一个 Dep 依赖收集器，内存开销大</li>
+<li>proxy 能监听数组，而 defineProperty 无法监听直接修改数组元素或者数组长度</li>
+<li>proxy 拦截的操作更多，有 13 种对象操作，包括 set，get，deleteProperty，has，ownKeys 等等</li>
+</ul>
+<p>proxy 的局限：</p>
+<ul>
+<li>兼容性差，proxy 是 ES6 特性，无法在 IE11 以下版本使用</li>
+<li>单次拦截操作比 Object.defineProperty 更慢，但是整体性能更优越</li>
+</ul>
+<h1 id="react-的响应式方案"><a href="#react-的响应式方案" class="headerlink" title="react 的响应式方案"></a>react 的响应式方案</h1><p>采用不可变数据 + 虚拟 DOM 差异对比机制</p>
+<p>状态驱动，通过 useState 等 Hook 管理状态。<br>当状态变化时，触发组件重新渲染，生成新的虚拟 DOM。<br>通过 diffing，找出最小化 DOM 操作，更新真实 DOM。</p>
+<h1 id="脏检查方案"><a href="#脏检查方案" class="headerlink" title="脏检查方案"></a>脏检查方案</h1><p>早期双向绑定框架使用的方案，比如 angular1。<br>它将模版表达式和数据模型关联起来，形成一个监视器列表，定期检查其中的数据变化。如果查到数据发生变化（变脏），则执行更新操作。<br>只要检查到数据变脏，会一直更新，知道所有数据不再变化。（有最大次数限制，比如 10 次，防止无限循环）</p>
+<p>优点：<br>兼容性好，支持 ie8，因为它不基于 ES6 的 proxy 和 Object.defineProperty<br>简单直接，因为不需要预先定义响应式数据，任何 JavaScript 对象均可被监视</p>
+<p>缺点：<br>性能问题，每次检查都会全量检查监视器，数据量大会导致性能下降<br>不够精细，无论数据是否发生变化，每次都会全量检查，做不到精确定位变化点<br>依赖手动触发，异步操作中依赖手动触发，很容易导致界面不同步</p>
+<h1 id="vue-中的虚拟-DOM"><a href="#vue-中的虚拟-DOM" class="headerlink" title="vue 中的虚拟 DOM"></a>vue 中的虚拟 DOM</h1><p>vue 借鉴了虚拟 DOM 的概念，在 vue3 中分离了核心模块和渲染模块，使得 vue 理论上拥有比 react 更好的跨平台支持。</p>
+
+        
+        <br />
+        <div id="comment-container">
+            
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+        <div id="valine-container">
+          <!-- valine评论 -->
+          <section id="comments" class="comments">
+          </section>
+            <style>
+              .comments{margin:30px;padding:10px;background:rgb(255, 255, 255)}
+              @media screen and (max-width:400px){.comments{margin:auto;padding:10px;background:rgb(214, 252, 203)}}
+            </style>
+            <div id="vcomment" class="comment"></div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/guan-jie-65">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+        <li>
+            <a target="_blank" href="http://weibo.com/6435500079">
+                            <span class="fa-stack fa-lg">
+                                  <i class="iconfont icon-weibo"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/movethink">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://yiwenzhe.com/" target="_blank" rel="noopener">YWZ</a></span>
+        <span>/</span>
+        
+        <span><a href="https://coolshell.cn/" target="_blank" rel="noopener">COOLSHELL</a></span>
+        <span>/</span>
+        
+        <span><a href="http://www.yinwang.org/" target="_blank" rel="noopener">WANGYIN</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<!-- 评论系统 -->
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  var notify = "false" == true ? true : false;
+  var verify = "false" == true ? true : false;
+  new Valine({
+    av: AV,
+    el: "#vcomment",
+    notify: notify,
+    app_id: "Ymj3Wec8bNrVWvOrrIw0P1kG-MdYXbMMI",
+    app_key: "3CPCEBWW5sbk2TicczVjaXVf",
+    placeholder: "请留下宝贵的评论",
+    avatar: "retro",
+  });
+</script>
+
+
+
+
+</html>
